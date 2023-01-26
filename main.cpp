@@ -1,6 +1,5 @@
 #include <iostream>
 #include "modules/simpleAllocator.h"
-#include "modules/utils.hpp"
 #include <vector>
 #include <map>
 #include <bitset>

@@ -74,8 +74,11 @@ namespace Utils
             return &(memory[index]);
         }
 
-        T* memory;
+
     private:
+
+        T* memory;
+
         std::bitset<blockSize> info{0};
 
         auto getBitMask(std::size_t cnt)
