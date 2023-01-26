@@ -26,7 +26,7 @@ namespace Utils
         std::optional<std::size_t> getAllocationIndex(std::size_t bytes)
         {
 
-            if((info.size()-info.count())<bytes)
+            if(getCountOfFree()<bytes)
             {
                 return std::nullopt;
             }
@@ -48,7 +48,7 @@ namespace Utils
 
 
 
-        void freePionterIndex(T* pointer, std::size_t cnt)
+        bool freePionterIndex(T* pointer, std::size_t cnt)
         {
             bool isStart=false;
             for(auto i=0;i!=blockSize;i++)
@@ -56,9 +56,10 @@ namespace Utils
                 if((&(memory[i])==pointer)&&(!isStart))
                 {
                     setRange(i,cnt,0);
-                    break;
+                    return true;
                 }
             }
+            return false;
         }
 
         void setRange(std::size_t start, std::size_t cnt, int v)
@@ -74,11 +75,15 @@ namespace Utils
             return &(memory[index]);
         }
 
+        inline auto getCountOfFree()
+        {
+            return (info.size()-info.count());
+        }
+
 
     private:
 
         T* memory;
-
         std::bitset<blockSize> info{0};
 
         auto getBitMask(std::size_t cnt)
@@ -90,6 +95,8 @@ namespace Utils
             }
             return ret;
         }
+
+
 
 
 };

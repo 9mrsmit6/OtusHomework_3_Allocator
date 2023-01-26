@@ -5,6 +5,7 @@
 #include <bitset>
 #include "utils.hpp"
 #include <iostream>
+#include <list>
 
 
 
@@ -45,8 +46,6 @@ public:
 private:
    std::unique_ptr<Utils::MemoryBlock<T, L::size >> mem;
 
-
-
 };
 
 template <class T, class U, typename L >
@@ -64,13 +63,14 @@ T* SimpleAllocator<T,L>::allocate(std::size_t n)
 
     auto addr=mem->getAdress(p.value());
     mem->setRange(p.value(),n,1);
+
     return addr;
 }
 
 template <typename T,typename L >
 void SimpleAllocator<T,L>::deallocate(T* p, std::size_t n)
 {
-    mem->freePionterIndex(p, n);
+    mem->freePionterIndex(p, n);    
 }
 
 

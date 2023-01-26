@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <bitset>
+#include <list>
 
 struct AllocatorConfig
 {
@@ -42,6 +43,15 @@ int main()
         std::cout << v << ' ';
     }
     std::cout << std::endl;
+
+
+    auto value=128;
+
+    auto ptr=std::make_unique<int>(value);
+
+    std::list<std::unique_ptr<int>> list;
+
+    list.push_front(std::make_unique<int>(value));
 
 
 
