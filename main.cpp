@@ -6,6 +6,7 @@
 
 #include "modules/simpleAllocator.h"
 #include "modules/factorial.hpp"
+#include "modules/container.hpp"
 
 struct AllocatorConfig
 {
@@ -71,6 +72,34 @@ int main()
     printMap(myAllocatorMap,  "MYM ");
 
     std::cout<<"----------------------------"<<std::endl;
+
+
+
+
+    TestConteiner<int> myConteiner;
+    for(int i=0;i!=10;i++)
+    {
+        myConteiner.add(Utils::factorial(i));
+    }
+
+
+
+
+
+//    std::allocator<TestContainerNode<int>> alloc;
+
+
+//    auto v=alloc.allocate(1);
+//    alloc.construct(v,123);
+
+//    TestContainerNode<int>& vax= *v;
+
+//    int* v1111 = new int(123);
+
+//    new(v1111) int(123);
+
+//    (*v1111)++;
+
 
 
 
