@@ -1,57 +1,91 @@
 #include <iostream>
-#include "modules/simpleAllocator.h"
 #include <vector>
 #include <map>
 #include <bitset>
 #include <list>
 
+#include "modules/simpleAllocator.h"
+#include "modules/factorial.hpp"
+
 struct AllocatorConfig
 {
-    static const int size{128};
+    static const int size{10};
 };
+
+template<typename T, typename S>
+void printMap(const T& map, S&& str)
+{
+    std::cout<<str<<": ";
+    for(const auto& [key, value]:map)
+    {
+        std::cout<<'('<<key<<' '<<value<<") ";
+    }
+    std::cout<<std::endl;
+
+}
+
+template <typename T>
+void fillMap(T& map )
+{
+    for(int i=0;i!=10;i++)
+    {
+        map[i]=Utils::factorial(i);
+    }
+}
 
 int main()
 {
 
+    auto stdAllocatorMap = std::map<int,int>{};
+    fillMap(stdAllocatorMap);
 
-    std::vector<int, SimpleAllocator<int,AllocatorConfig> > vector;
+    auto myAllocatorMap = std::map<int,int, std::less<int>,SimpleAllocator<std::pair<const int, int> , AllocatorConfig> >{};
+    fillMap(myAllocatorMap);
 
-
-    auto m = std::map<int,float,std::less<int>,	SimpleAllocator<std::pair<	const int, float> , AllocatorConfig> >{};
-
-
-    for (int i = 0; i < 10; ++i) {
-        vector.push_back(i);
-        m[i]=i;
-    }
-
-    for (const auto& v : vector)
-    {
-        std::cout << v << ' ';
-    }
-    std::cout << std::endl;
-    std::cout << "MAP: ";
-    for (int i=0;i!=10; i++)
-    {
-        std::cout << m[i] << ' ';
-    }
-    std::cout << std::endl;
-
-    auto other = vector;
-
-    for (const auto& v : other) {
-        std::cout << v << ' ';
-    }
-    std::cout << std::endl;
+    printMap(stdAllocatorMap, "STD");
+    printMap(myAllocatorMap,  "MY ");
 
 
-    auto value=128;
 
-    auto ptr=std::make_unique<int>(value);
 
-    std::list<std::unique_ptr<int>> list;
+//    std::vector<int, SimpleAllocator<int,AllocatorConfig> > vector;
 
-    list.push_front(std::make_unique<int>(value));
+
+//    auto m = std::map<int,float,std::less<int>,	SimpleAllocator<std::pair<	const int, float> , AllocatorConfig> >{};
+
+
+//    for (int i = 0; i < 10; ++i) {
+//        vector.push_back(i);
+//        m[i]=i;
+//    }
+
+//    for (const auto& v : vector)
+//    {
+//        std::cout << v << ' ';
+//    }
+//    std::cout << std::endl;
+//    std::cout << "MAP: ";
+//    for (int i=0;i!=10; i++)
+//    {
+//        std::cout << m[i] << ' ';
+//    }
+//    std::cout << std::endl;
+
+//    auto other = vector;
+
+//    for (const auto& v : other) {
+//        std::cout << v << ' ';
+//    }
+//    std::cout << std::endl;
+
+
+//    auto value=128;
+
+//    auto ptr=std::make_unique<int>(value);
+
+//    std::list<std::unique_ptr<int>> list;
+
+//    list.push_front(std::make_unique<int>(value));
 
 
 
