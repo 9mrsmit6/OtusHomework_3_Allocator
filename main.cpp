@@ -42,8 +42,39 @@ int main()
     auto myAllocatorMap = std::map<int,int, std::less<int>,SimpleAllocator<std::pair<const int, int> , AllocatorConfig> >{};
     fillMap(myAllocatorMap);
 
-    printMap(stdAllocatorMap, "STD");
-    printMap(myAllocatorMap,  "MY ");
+    printMap(stdAllocatorMap, "STD ");
+    printMap(myAllocatorMap,  "MY  ");
+
+    std::cout<<"------------- COPY ---------"<<std::endl;
+
+    auto copyMap=myAllocatorMap;
+    printMap(copyMap,  "COPY");
+    printMap(myAllocatorMap,  "MYC ");
+
+    myAllocatorMap[5]=321;
+    copyMap[5]=123;
+
+    printMap(copyMap,  "COPY");
+    printMap(myAllocatorMap,  "MYC ");
+
+    std::cout<<"----------------------------"<<std::endl;
+
+    std::cout<<"------------- MOVE ---------"<<std::endl;
+
+    auto testMap=std::move(myAllocatorMap);
+    printMap(testMap,  "MOVE");
+    printMap(myAllocatorMap,  "MYM ");
+    myAllocatorMap[5]=567;
+    testMap[5]=765;
+
+    printMap(testMap,  "MOVE");
+    printMap(myAllocatorMap,  "MYM ");
+
+    std::cout<<"----------------------------"<<std::endl;
+
+
+
+
 
 
 

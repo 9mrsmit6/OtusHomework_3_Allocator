@@ -22,16 +22,23 @@ public:
     }
     ~SimpleAllocator()  =   default;
 
+
     template <typename U>
     SimpleAllocator(const SimpleAllocator<U,L>&)
     {
 
     }
 
-    SimpleAllocator(const SimpleAllocator<T,L>&):
+    SimpleAllocator(const SimpleAllocator<T,L>& r):
         SimpleAllocator()
     {
 
+    }
+
+    SimpleAllocator(SimpleAllocator<T,L>&& r)
+    {
+        mem=std::move(r.mem);
+        r.mem=std::make_unique<Utils::MemoryBlock<T, L::size >>();
     }
 
    template <typename U>

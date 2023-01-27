@@ -80,6 +80,7 @@ namespace Utils
             return (info.size()-info.count());
         }
 
+        uint64_t adress(){return (uint64_t)(memory);}
 
     private:
 
@@ -97,9 +98,6 @@ namespace Utils
         }
 
 };
-
-
-
 
 }
 
