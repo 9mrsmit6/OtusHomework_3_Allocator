@@ -30,9 +30,21 @@ class TestConteiner
             alloc()
         {
         }
-        ~TestConteiner() = default;
+        ~TestConteiner()
+        {
+            popNode=first;
 
-        void add(T&& addElement)
+            for(int i=0;i!=id;i++)
+            {
+                if(popNode==nullptr){break;}
+                auto* nextNodePtr=popNode->nextNode;
+                traits::destroy(alloc, popNode);
+                traits::deallocate(alloc,popNode,1);
+                popNode=nextNodePtr;
+            }
+        }
+
+        void push(T&& addElement)
         {
             auto* nodePtr=traits::allocate(alloc, 1);
             if(nodePtr==nullptr)
@@ -41,34 +53,47 @@ class TestConteiner
             }
 
             traits::construct(alloc,nodePtr, std::forward<T>(addElement));
+            id++;
 
 
-            last=nodePtr;
-
-            if(current!=nullptr)
+            if(pushNode!=nullptr)
             {
-                current->nextNode=nodePtr;
+                pushNode->nextNode=nodePtr;
             }
-            current=nodePtr;
+            pushNode=nodePtr;
 
             if(first==nullptr)
             {
                 first=nodePtr;
             }
+
+            if(popNode==nullptr)
+            {
+                popNode=nodePtr;
+            }
+
         }
 
-//        std::optional<T&> getNext()
-//        {
-//            if(current==last){return std::nullopt;}
+        std::optional<T> next()
+        {
+            if(popNode==nullptr)
+            {
+                return std::nullopt;
+            }
 
-//        }
+            auto& ret=popNode->element;
+            popNode=popNode->nextNode;
+            return ret;
+        }
 
 
 
     private:
-        TestContainerNode<T>* first;
-        TestContainerNode<T>* current;
-        TestContainerNode<T>* last;
+        TestContainerNode<T>* first{nullptr};
+        TestContainerNode<T>* pushNode{nullptr};
+        TestContainerNode<T>* popNode{nullptr};
+
+        std::size_t id{0};
 
         Allocator alloc;
 

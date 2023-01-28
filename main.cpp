@@ -79,8 +79,20 @@ int main()
     TestConteiner<int> myConteiner;
     for(int i=0;i!=10;i++)
     {
-        myConteiner.add(Utils::factorial(i));
+        myConteiner.push(Utils::factorial(i));
     }
+
+    for(int i=0;i!=10;i++)
+    {
+        auto v=myConteiner.next();
+        if(v)
+        {
+            std::cout<<'('<<i<<' '<<v.value()<<") ";
+        }
+        else{break;}
+    }
+    std::cout<<std::endl;
+
 
 
 
